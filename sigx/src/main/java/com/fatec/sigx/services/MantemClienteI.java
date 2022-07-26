@@ -43,6 +43,11 @@ public class MantemClienteI implements MantemCliente {
 				logger.info(">>>>>> servico save - dados validos");
 				cliente.setDataCadastro(new DateTime());
 				cliente.setEndereco(endereco.getLogradouro());
+				Optional<String> sexo = Optional.ofNullable(cliente.getSexo());
+				if (sexo.isEmpty()) {
+					logger.info(">>>>>> cliente atributo sexo => vazio");
+					cliente.setSexo("M");//default
+				}
                 return Optional.ofNullable(repository.save(cliente));
  		} else {
 		        return Optional.empty();
@@ -65,6 +70,7 @@ public class MantemClienteI implements MantemCliente {
 			clienteModificado.setId(cliente.getId());
 			clienteModificado.obtemDataAtual(new DateTime());
 			clienteModificado.setEndereco(endereco.getLogradouro());
+			clienteModificado.setProfissao(cliente.getProfissao());
 			logger.info(">>>>>> 2. servico altera cliente cep valido para o id => " + clienteModificado.getId());
 			return Optional.ofNullable(repository.save(clienteModificado));
 		} else {

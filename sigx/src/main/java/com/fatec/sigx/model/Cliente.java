@@ -2,6 +2,7 @@ package com.fatec.sigx.model;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
 import org.hibernate.validator.constraints.br.CPF;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -24,8 +26,9 @@ public class Cliente {
 	//https://www.regular-expressions.info/
 	private String dataNascimento;
 	private String dataCadastro;
+	@NotBlank(message="O sexo é requerido.")
 	private String sexo;
-	@CPF
+	@CPF(message="CPF inválido.")
 	@Column(unique = true) // nao funciona com @Valid tem que tratar na camada de persistencia
 	private String cpf;
 	@NotBlank(message="O CEP é obrigatório.")
@@ -33,6 +36,8 @@ public class Cliente {
 	private String endereco;
 	@NotBlank(message="O complemento deve ser informado")
 	private String complemento;
+	@NotBlank(message="A profissão é um atributo requerido.")
+	private String profissao;
 	public Cliente(String nome, String dataNascimento, String sexo, String cpf,  String cep, String complemento) {
 		this.nome = nome;
 		setDataNascimento(dataNascimento);
@@ -102,6 +107,13 @@ public class Cliente {
 	}
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
+	}
+	
+	public String getProfissao() {
+		return profissao;
+	}
+	public void setProfissao(String profissao) {
+		this.profissao = profissao;
 	}
 	public boolean validaData(String data) {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");

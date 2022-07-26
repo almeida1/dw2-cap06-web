@@ -1,5 +1,7 @@
 package com.fatec.sigx.controller;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
@@ -24,28 +26,32 @@ public class GUIClienteController {
 
 	@GetMapping("/clientes")
 	public ModelAndView retornaFormDeConsultaTodosClientes() {
-		ModelAndView modelAndView = new ModelAndView("consultarCliente");
-		modelAndView.addObject("clientes", servico.consultaTodos());
-		return modelAndView;
+		ModelAndView mv = new ModelAndView("consultarCliente");
+		mv.addObject("clientes", servico.consultaTodos());
+		return mv;
 	}
 
 	@GetMapping("/cliente")
 	public ModelAndView retornaFormDeCadastroDe(Cliente cliente) {
 		ModelAndView mv = new ModelAndView("cadastrarCliente");
+		List<String> lista = Arrays.asList("Técnico", "Advogado", "Analista");
+		mv.addObject("lista", lista);
 		mv.addObject("cliente", cliente);
 		return mv;
 	}
 
 	@GetMapping("/clientes/{cpf}") // diz ao metodo que ira responder a uma requisicao do tipo get
 	public ModelAndView retornaFormParaEditarCliente(@PathVariable("cpf") String cpf) {
-		ModelAndView modelAndView = new ModelAndView("atualizarCliente");
+		ModelAndView mv = new ModelAndView("atualizarCliente");
+		List<String> lista = Arrays.asList("Técnico", "Advogado", "Analista");
+		mv.addObject("lista", lista);
 		Optional<Cliente> cliente = servico.consultaPorCpf(cpf);
 		if (cliente.isPresent()) {
-			modelAndView.addObject("cliente", cliente.get()); // retorna um objeto do tipo cliente
+			mv.addObject("cliente", cliente.get()); // retorna um objeto do tipo cliente
 		} else {
 			return new ModelAndView ("paginaMenu");
 		}
-		return modelAndView; // addObject adiciona objetos para view
+		return mv; // addObject adiciona objetos para view
 	}
 
 	@GetMapping("/clientes/id/{id}")
@@ -59,20 +65,22 @@ public class GUIClienteController {
 
 	@PostMapping("/clientes")
 	public ModelAndView save(@Valid Cliente cliente, BindingResult result) {
-		ModelAndView modelAndView = new ModelAndView("consultarCliente");
+		ModelAndView mv = new ModelAndView("consultarCliente");
 		if (result.hasErrors()) {
-			modelAndView.setViewName("cadastrarCliente");
+			List<String> lista = Arrays.asList("Técnico", "Advogado", "Analista");
+			mv.addObject("lista", lista);
+			mv.setViewName("cadastrarCliente");
 		} else {
 			if (servico.save(cliente).isPresent()) {
-				logger.info(">>>>>> controller chamou adastrar e consulta todos");
-				modelAndView.addObject("clientes", servico.consultaTodos());
+				logger.info(">>>>>> controller chamou cadastrar e consultar todos");
+				mv.addObject("clientes", servico.consultaTodos());
 			} else {
 				logger.info(">>>>>> controller cadastrar com dados invalidos");
-				modelAndView.setViewName("cadastrarCliente");
-				modelAndView.addObject("message", "Dados invalidos");
+				mv.setViewName("cadastrarCliente");
+				mv.addObject("message", "Dados invalidos");
 			}
 		}
-		return modelAndView;
+		return mv;
 	}
 
 	@PostMapping("/clientes/id/{id}")
