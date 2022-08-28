@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.fatec.sigx.model.Cliente;
+import com.fatec.sigx.model.Endereco;
 public interface MantemCliente {
 	List<Cliente> consultaTodos();
 	Optional<Cliente> consultaPorCpf(String cpf);
@@ -10,4 +11,5 @@ public interface MantemCliente {
 	Optional<Cliente> save(Cliente cliente);
 	void delete (Long id);
 	Optional<Cliente> atualiza ( Cliente cliente);
+	Endereco obtemEndereco(String cep);
 }

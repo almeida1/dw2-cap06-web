@@ -25,64 +25,86 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="col-md-8">
-				      <form action="#" th:action="@{/sig/clientes}" th:object="${cliente}" method="post">
-					<div class="row">
-						<div class="form-group col-md-4">
-							<label for="cpf" class="col-form-label">CPF</label>
-							<input type="text" th:field="*{cpf}" class="form-control" id="cpf" placeholder="CPF">
-							<span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="text-danger">
-							</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-md-8">
-							<label for="nome" class="col-form-label">Nome</label>
-						<input type="text" th:field="*{nome}" class="form-control" id="nome" placeholder="Nome"> 
-							<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-danger"> 
-							</span>
-						</div> 
-					</div>
-					<div class="row">
-						<div class="form-group col-md-8">
-							<label for="dataNascimento" class="col-form-label">Data Nascimento</label>
-				<input type="text" th:field="*{dataNascimento}" class="form-control" id="dataNascimento" placeholder="Data Nascimento"> 
-					<span th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}" class="text-danger"> 
-							</span>
-						</div> 
-					</div>
-					<div class="row">
-						<div class="form-group col-md-2">
-							<label for="dataNascimento" class="col-form-label">Sexo</label>
-						<input type="text" th:field="*{sexo}" class="form-control" id="sexo" placeholder="M/F"> 
-							<span th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}" class="text-danger"> 
-							</span>
-						</div> 
-					</div>
-					<div class="row">
-						<div class="form-group col-md-8">
-							<label for="cep" class="col-form-label">CEP</label> 
-							<input type="text" th:field="*{cep}" class="form-control" id="cep" placeholder="CEP"> 
-						<span th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}" class="text-danger"></span>
-						</div>
+					<form action="#" th:action="@{/sig/clientes}" th:object="${cliente}" method="post">
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label for="cpf" class="col-form-label">CPF</label>
+								<input type="text" th:field="*{cpf}" class="form-control" id="cpf" placeholder="CPF">
+								<span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="text-danger">
+								</span>
+							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col-md-8">
-								<label for="complemento" class="col-form-label">Complemento</label> 
-			<input type="text" th:field="*{complemento}" class="form-control" id="complemento" placeholder="Complemento numero/apto"> 
-					<span th:if="${#fields.hasErrors('complemento')}" th:errors="*{complemento}" class="text-danger"></span>
+								<label for="nome" class="col-form-label">Nome</label>
+								<input type="text" th:field="*{nome}" class="form-control" id="nome" placeholder="Nome">
+								<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-danger">
+								</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-8">
+								<label for="dataNascimento" class="col-form-label">Data Nascimento</label>
+								<input type="text" th:field="*{dataNascimento}" class="form-control" id="dataNascimento"
+									placeholder="Data Nascimento">
+								<span th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}"
+									class="text-danger">
+								</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-8">
+								<div>
+									<label>Sexo</label>
+								</div>
+								<input type="radio" th:field="*{sexo}" name="flexRadioDefault" id="flexRadioDefault1"
+									value="M">
+								<label> Masculino </label>
+								<input type="radio" th:field="*{sexo}" name="flexRadioDefault" id="flexRadioDefault2"
+									value="F" checked>
+								<label> Feminino </label>
+								<span th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}" class="text-danger">
+								</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-8">
+								<label for="cep" class="col-form-label">CEP</label>
+								<input type="text" th:field="*{cep}" class="form-control" id="cep" placeholder="CEP">
+								<span th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}" class="text-danger"></span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-8">
+								<label for="complemento" class="col-form-label">Complemento</label>
+								<input type="text" th:field="*{complemento}" class="form-control" id="complemento"
+									placeholder="Complemento numero/apto">
+								<span th:if="${#fields.hasErrors('complemento')}" th:errors="*{complemento}"
+									class="text-danger"></span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-8">
+
+								<label> Profissão </label>
+								<select th:field="*{profissao}">
+									<option th:each="p : ${lista}" th:value="${p}" th:text="${p}" /option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group col-md-8">
 							<input type="submit" class="btn btn-primary" value="Cadastrar cliente">
-						<input type="button" class="btn btn-primary" value="Consultar cliente" onclick="consulta();">
+							<input type="button" class="btn btn-primary" value="Consultar cliente"
+								onclick="consulta();">
 						</div>
 					</form>
-					</div>
+				</div>
 			</div>
-				<h6 th:text="${message}" class="text-danger"></h6>
+			<h6 th:text="${message}" class="text-danger"></h6>
 		</div>
-		    <footer th:replace="fragments/footer :: rodape">
-		<div>footer</div>
+		<footer th:replace="fragments/footer :: rodape">
+			<div>footer</div>
 		</footer>
 </body>
 </html>
