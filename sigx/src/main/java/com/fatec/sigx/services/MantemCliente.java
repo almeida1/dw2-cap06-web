@@ -11,5 +11,7 @@ public interface MantemCliente {
 	Optional<Cliente> save(Cliente cliente);
 	void delete (Long id);
 	Optional<Cliente> atualiza ( Cliente cliente);
-	Endereco obtemEndereco(String cep);
+	public boolean validaData(String data);
+	Optional<Endereco> obtemEndereco(String cep);
+	
 }

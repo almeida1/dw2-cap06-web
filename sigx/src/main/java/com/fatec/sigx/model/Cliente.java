@@ -38,7 +38,7 @@ public class Cliente {
 	private String complemento;
 	@NotBlank(message="A profissão é um atributo requerido.")
 	private String profissao;
-	public Cliente(String nome, String dataNascimento, String sexo, String cpf,  String cep, String complemento) {
+	public Cliente(String nome, String dataNascimento, String sexo, String cpf,  String cep, String complemento, String profissao) {
 		this.nome = nome;
 		setDataNascimento(dataNascimento);
 		setDataCadastro(new DateTime());
@@ -46,6 +46,7 @@ public class Cliente {
 		this.cpf = cpf;
 		this.cep = cep;
 		this.complemento = complemento;
+		this.profissao = profissao;
 	}
 	public Cliente() {
 		
@@ -72,11 +73,7 @@ public class Cliente {
 		return dataNascimento;
 	}
 	public void setDataNascimento(String dataNascimento)  {
-		if (validaData(dataNascimento) == true) {
-			this.dataNascimento = dataNascimento;
-		} else {
-			throw new IllegalArgumentException("Data invalida");
-		}
+		this.dataNascimento = dataNascimento;
 	}
 	public String getSexo() {
 		return sexo;
@@ -115,16 +112,7 @@ public class Cliente {
 	public void setProfissao(String profissao) {
 		this.profissao = profissao;
 	}
-	public boolean validaData(String data) {
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		df.setLenient(false); //
-		try {
-			df.parse(data); // data válida (exemplo 30 fev - 31 nov)
-			return true;
-		} catch (ParseException ex) {
-			return false;
-		}
-	}
+	
 	public String obtemDataAtual(DateTime dataAtual) {
 		DateTimeFormatter fmt = DateTimeFormat.forPattern("dd/MM/YYYY");
 		return dataAtual.toString(fmt);
