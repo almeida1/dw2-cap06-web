@@ -40,9 +40,10 @@ public class MantemClienteI implements MantemCliente {
 	public Optional<Cliente> save(Cliente cliente) {
 		logger.info(">>>>>> servico save chamado ");
 		Optional<Cliente> umCliente = consultaPorCpf(cliente.getCpf());
+		boolean dtNascimentoIsValida = validaData(cliente.getDataNascimento());
 		Optional<Endereco> endereco = obtemEndereco(cliente.getCep());
 	
-		if (umCliente.isEmpty() & endereco.isPresent()) {
+		if (umCliente.isEmpty() & endereco.isPresent() & dtNascimentoIsValida) {
 				logger.info(">>>>>> servico save - dados validos");
 				cliente.setDataCadastro(new DateTime());
 				cliente.setEndereco(endereco.get().getLogradouro());

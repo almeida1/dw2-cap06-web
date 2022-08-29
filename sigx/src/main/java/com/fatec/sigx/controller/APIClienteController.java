@@ -38,7 +38,6 @@ public class APIClienteController {
 
 	@PostMapping
 	public ResponseEntity<Object> saveCliente(@RequestBody @Valid ClienteDTO clienteDTO, BindingResult result) {
-
 		if (result.hasErrors()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result.getFieldError().getDefaultMessage());
 		}
@@ -51,8 +50,13 @@ public class APIClienteController {
 		if (servico.obtemEndereco(clienteDTO.getCep()).isEmpty()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CEP invalido");
 		}
-		logger.info(">>>>>> controller post dados validos");
-		return ResponseEntity.status(HttpStatus.CREATED).body(servico.save(clienteDTO.retornaUmCliente()));
+		try {
+			logger.info(">>>>>> controller dados validos post enviado");
+			return ResponseEntity.status(HttpStatus.CREATED).body(servico.save(clienteDTO.retornaUmCliente()));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception nao esperado contate o administrador.");
+		}
+		
 	}
 
 	@GetMapping
@@ -60,7 +64,7 @@ public class APIClienteController {
 		return ResponseEntity.status(HttpStatus.OK).body(servico.consultaTodos());
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/{id}/id")
 	public ResponseEntity<Object> consultaPorId(@PathVariable(value = "id") Long id) {
 		Optional<Cliente> cliente = servico.consultaPorId(id);
 		if (servico.consultaPorId(id).isEmpty()) {
