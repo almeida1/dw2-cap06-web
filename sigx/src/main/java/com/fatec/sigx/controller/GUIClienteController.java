@@ -65,17 +65,20 @@ public class GUIClienteController {
 
 	@PostMapping("/clientes")
 	public ModelAndView save(@Valid Cliente cliente, BindingResult result) {
+		List<String> lista = Arrays.asList("Técnico", "Advogado", "Analista");
 		ModelAndView mv = new ModelAndView("consultarCliente");
 		if (result.hasErrors()) {
-			List<String> lista = Arrays.asList("Técnico", "Advogado", "Analista");
 			mv.addObject("lista", lista);
 			mv.setViewName("cadastrarCliente");
+			mv.addObject("message", "Dados inválidos - bindingresult");
+			logger.info(">>>>>> controller com dados invalidos no bindingresult");
 		} else {
 			if (servico.save(cliente).isPresent()) {
-				logger.info(">>>>>> controller chamou cadastrar e consultar todos");
+				logger.info(">>>>>> controller cadastrar chamou servico consultar todos");
 				mv.addObject("clientes", servico.consultaTodos());
 			} else {
 				logger.info(">>>>>> controller cadastrar com dados invalidos");
+				mv.addObject("lista", lista);
 				mv.setViewName("cadastrarCliente");
 				mv.addObject("message", "Dados invalidos");
 			}

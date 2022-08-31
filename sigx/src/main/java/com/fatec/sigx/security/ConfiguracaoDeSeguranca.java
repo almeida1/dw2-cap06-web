@@ -23,7 +23,9 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
 		.anyRequest().authenticated()
 		.and()
 		.formLogin().loginPage("/login").permitAll().and()
-		.logout().logoutSuccessUrl("/login?logout").permitAll();
+		.logout().logoutSuccessUrl("/login?logout").permitAll()
+		.and()
+		.csrf().disable();
 	}
     //configuracao de autenticacao
 	@Override

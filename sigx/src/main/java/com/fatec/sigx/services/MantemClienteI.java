@@ -42,7 +42,9 @@ public class MantemClienteI implements MantemCliente {
 		Optional<Cliente> umCliente = consultaPorCpf(cliente.getCpf());
 		boolean dtNascimentoIsValida = validaData(cliente.getDataNascimento());
 		Optional<Endereco> endereco = obtemEndereco(cliente.getCep());
-	
+		
+		logger.info(">>>>>> servico save chamado endereco=> " + endereco.isPresent());
+
 		if (umCliente.isEmpty() & endereco.isPresent() & dtNascimentoIsValida) {
 				logger.info(">>>>>> servico save - dados validos");
 				cliente.setDataCadastro(new DateTime());
@@ -54,6 +56,7 @@ public class MantemClienteI implements MantemCliente {
 				}
                 return Optional.ofNullable(repository.save(cliente));
  		} else {
+ 			    logger.info(">>>>>> servico cliente ja cadastrado/cep invalido =>" + umCliente.isEmpty());
 		        return Optional.empty();
 		}
 		
@@ -82,6 +85,7 @@ public class MantemClienteI implements MantemCliente {
 		}
 	}
 	public boolean validaData(String data) {
+		logger.info(">>>>>> servico validadata chamado ");
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		df.setLenient(false); //
 		try {
@@ -99,7 +103,12 @@ public class MantemClienteI implements MantemCliente {
 
 		try {
 			resposta = template.getForEntity(url, Endereco.class, cep);
-			return Optional.ofNullable(resposta.getBody());
+			String logradouro = resposta.getBody().getLogradouro();
+			if (logradouro != null) {
+				return Optional.ofNullable(resposta.getBody());
+			}else {
+				return Optional.empty();
+			}
 		} catch (ResourceAccessException e) {
 			logger.info(">>>>>> consulta CEP erro nao esperado ");
 			return Optional.empty();
