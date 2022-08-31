@@ -1,4 +1,5 @@
 package com.fatec.sigx.security;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -7,13 +8,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
      //configuracao de autorizacao
+	@Autowired
+	UserDetailsServiceImpl userDetailsService;
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -27,14 +27,17 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
 		.and()
 		.csrf().disable();
 	}
-    //configuracao de autenticacao
+    //configuracao de autenticacao em memoria
+	/*
+	 * configuracao de autenticacao em memoria com a password criptografada
+	 */
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-			.withUser("jose").password(pc().encode("123")).roles("ADMIN")
-			.and()
-			.withUser("maria").password(pc().encode("456")).roles("VEND"); //nao tem acesso as funcoes de fornecedores
-		
+//		auth.inMemoryAuthentication()
+//			.withUser("jose").password(pc().encode("123")).roles("ADMIN")
+//			.and()
+//			.withUser("maria").password(pc().encode("456")).roles("VEND"); //nao tem acesso as funcoes de fornecedores
+		auth.userDetailsService(userDetailsService).passwordEncoder(pc());
 	}
 
 	@Bean
