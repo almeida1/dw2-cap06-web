@@ -19,7 +19,7 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers("/clientes").hasAnyRole("ADMIN", "VEND") 
 		.antMatchers("/fornecedores").hasRole("ADMIN")
-		.antMatchers("/api/v1/clientes").permitAll()
+		//.antMatchers("/api/v1/clientes").permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.formLogin().loginPage("/login").permitAll().and()
