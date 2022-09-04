@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.fatec.sigx.model.UserAppRepository;
 import com.fatec.sigx.model.UsuarioApp;
 
+//revisao versao 11
 @SpringBootApplication
 public class SigxApplication {
 	@Autowired
