@@ -9,7 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.fatec.sigx.model.UserAppRepository;
 import com.fatec.sigx.model.UsuarioApp;
 
-//revisao versao 11
+/*
+ * ponto de entrada da aplicacao - na inicializacao cria o primeiro usuario
+ */
 @SpringBootApplication
 public class SigxApplication {
 	@Autowired
